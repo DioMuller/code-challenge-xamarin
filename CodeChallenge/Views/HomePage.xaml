@@ -6,28 +6,35 @@
     x:Class="CodeChallenge.Views.HomePage"
     Title="Code Challenge"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
-    <Grid>
-        <CollectionView
-            ItemsSource="{Binding Movies}"
-            SelectionMode="None"
-            VerticalScrollBarVisibility="Never"
-            HorizontalScrollBarVisibility="Never"
-            HorizontalOptions="FillAndExpand"        
-            Footer="{Binding}"
-            RemainingItemsThreshold="{Binding ItemsThreshold}"
-            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <cells:MovieItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.FooterTemplate>
-                <DataTemplate>
-                    <Grid IsVisible="{Binding IsBusy}">
-                        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.FooterTemplate>
-        </CollectionView>
-    </Grid>
+    <ContentPage.Content>
+        <Grid>
+            <CollectionView
+                x:Name="MovieCollection"
+                ItemsSource="{Binding Movies}"
+                SelectionMode="None"
+                VerticalScrollBarVisibility="Never"
+                HorizontalScrollBarVisibility="Never"
+                HorizontalOptions="FillAndExpand"        
+                Footer="{Binding}"
+                RemainingItemsThreshold="{Binding ItemsThreshold}"
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <cells:MovieItemView>
+                            <cells:MovieItemView.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectMovieCommand, Source={x:Reference MovieCollection} }" CommandParameter="{Binding .}"/>
+                            </cells:MovieItemView.GestureRecognizers>
+                        </cells:MovieItemView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.FooterTemplate>
+                    <DataTemplate>
+                        <Grid IsVisible="{Binding IsBusy}">
+                            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.FooterTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

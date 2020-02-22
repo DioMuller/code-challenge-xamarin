@@ -29,6 +29,7 @@ namespace CodeChallenge.ViewModels
     {
         #region Attributes
         private readonly IMovieService _movieService;
+        private readonly INavigationService _navigationService;
         private int _currentPage = 1;
         #endregion
 
@@ -57,15 +58,19 @@ namespace CodeChallenge.ViewModels
 
         #region Commands
         public Command LoadMoreCommand { get; }
+        public Command<MovieItemViewModel> SelectMovieCommand { get; }
         #endregion
 
         #region Constructors
-        public HomeViewModel(IMovieService movieService)
+        public HomeViewModel(IMovieService movieService, INavigationService navigationService)
         {
             _movieService = movieService;
+            _navigationService = navigationService;
+
             _movies = new ObservableCollection<MovieItemViewModel>();
 
             LoadMoreCommand = new Command(async () => await ExecuteLoadMoreCommand());
+            SelectMovieCommand = new Command<MovieItemViewModel>(async (movie) => await ExecuteSelectMovieCommand(movie));
         }
         #endregion
 
@@ -105,6 +110,13 @@ namespace CodeChallenge.ViewModels
             _currentPage++;
 
             UpdateMovies();
+        }
+
+        private async Task ExecuteSelectMovieCommand(MovieItemViewModel movie)
+        {
+            if (movie == null) return;
+
+            await _navigationService.NavigateToAsync<DetailsViewModel>(movie.Id);
         }
         #endregion
     }

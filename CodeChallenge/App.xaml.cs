@@ -73,6 +73,7 @@ namespace CodeChallenge
         private void InitializeViewModels()
         {
             NavigationService.RegisterMap<HomeViewModel, HomePage>();
+            NavigationService.RegisterMap<DetailsViewModel, DetailsPage>();
         }
 
         private void InitializeContainer()

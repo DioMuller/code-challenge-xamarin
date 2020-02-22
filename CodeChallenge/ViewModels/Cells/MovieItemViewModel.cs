@@ -26,22 +26,29 @@ namespace CodeChallenge.ViewModels.Cells
 {
     public class MovieItemViewModel : BaseViewModel
     {
-        private string posterPath;
-
-        public MovieItemViewModel(Movie movie)
-        {
-            Title = movie.Title;
-            PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
-            ReleaseDate = movie.ReleaseDate;
-            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
-        }
-
+        #region Bindable Properties
         public string Title { get; set; }
 
+        private string posterPath;
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
 
         public DateTimeOffset ReleaseDate { get; set; }
 
         public string Genres { get; set; }
+
+        public int Id { get; set; }
+        #endregion
+
+        #region Constructor
+        public MovieItemViewModel(Movie movie)
+        {
+            Id = movie.Id;
+            Title = movie.Title;
+            PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
+            ReleaseDate = movie.ReleaseDate;
+            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+        }
+        #endregion
+
     }
 }
