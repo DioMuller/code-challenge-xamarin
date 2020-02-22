@@ -15,24 +15,21 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
-using CodeChallenge.Services;
+using CodeChallenge.Services.Interfaces;
+using CodeChallenge.ViewModels.Base;
+using CodeChallenge.ViewModels.Cells;
 
 namespace CodeChallenge.ViewModels
 {
-    public class HomePageViewModel : INotifyPropertyChanged
+    public class HomePageViewModel : BaseViewModel
     {
-        private readonly MovieService movieService;
+        private readonly IMovieService movieService;
         private ObservableCollection<MovieItemViewModel> movies;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public HomePageViewModel(MovieService movieService)
+        public HomePageViewModel(IMovieService movieService)
         {
             this.movieService = movieService;
             this.movies = new ObservableCollection<MovieItemViewModel>();
@@ -44,7 +41,7 @@ namespace CodeChallenge.ViewModels
             set => SetProperty(ref this.movies, value);
         }
 
-        public async Task OnAppearing()
+        public override async Task OnAppearing()
         {
             UpcomingMoviesResponse upcomingMoviesResponse = await this.movieService.UpcomingMovies(1);
             foreach (var movie in upcomingMoviesResponse.Results)
@@ -53,22 +50,6 @@ namespace CodeChallenge.ViewModels
             }
         }
 
-        public Task OnDisappearing() => Task.CompletedTask;
-
         public MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(result);
-
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

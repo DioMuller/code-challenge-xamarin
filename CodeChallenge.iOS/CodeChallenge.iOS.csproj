@@ -163,4 +163,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarCodeChallengeiOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

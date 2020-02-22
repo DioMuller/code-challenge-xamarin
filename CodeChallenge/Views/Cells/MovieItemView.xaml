@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:CodeChallenge.Effects"
-    x:Class="CodeChallenge.Views.MovieItemView">
+    x:Class="CodeChallenge.Views.Cells.MovieItemView">
     <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
            HasShadow="{x:OnPlatform Android=true, iOS=false}"
            BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"

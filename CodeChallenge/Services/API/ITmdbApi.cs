@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using CodeChallenge.Models;
 using Refit;
 
-namespace CodeChallenge.Services
+namespace CodeChallenge.Services.API
 {
     public interface ITmdbApi
     {

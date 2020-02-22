@@ -20,10 +20,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using CodeChallenge.Models;
+using CodeChallenge.ViewModels.Base;
 
-namespace CodeChallenge.ViewModels
+namespace CodeChallenge.ViewModels.Cells
 {
-    public class MovieItemViewModel : INotifyPropertyChanged
+    public class MovieItemViewModel : BaseViewModel
     {
         private string posterPath;
 
@@ -42,21 +43,5 @@ namespace CodeChallenge.ViewModels
         public DateTimeOffset ReleaseDate { get; set; }
 
         public string Genres { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

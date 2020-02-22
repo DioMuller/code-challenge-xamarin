@@ -15,40 +15,15 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using CodeChallenge.Services;
-using CodeChallenge.ViewModels;
 using Xamarin.Forms;
 
 namespace CodeChallenge.Views
 {
     public partial class HomePage : ContentPage
     {
-        private HomePageViewModel homePageViewModel;
         public HomePage()
         {
             InitializeComponent();
-            this.homePageViewModel = new HomePageViewModel(new MovieService());
-            BindingContext = this.homePageViewModel;
-        }
-
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (BindingContext is HomePageViewModel viewModel)
-            {
-                await viewModel.OnAppearing();
-            }
-        }
-
-        protected async override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            if (BindingContext is HomePageViewModel viewModel)
-            {
-                await viewModel.OnDisappearing();
-            }
         }
     }
 }

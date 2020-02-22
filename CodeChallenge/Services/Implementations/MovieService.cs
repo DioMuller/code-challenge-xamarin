@@ -19,13 +19,15 @@
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
+using CodeChallenge.Services.API;
+using CodeChallenge.Services.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Refit;
 
-namespace CodeChallenge.Services
+namespace CodeChallenge.Services.Implementations
 {
-    public class MovieService
+    public class MovieService : IMovieService
     {
         public Task<GenreResponse> GetGenres() => GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
 

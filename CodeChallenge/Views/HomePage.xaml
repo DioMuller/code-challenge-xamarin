@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:CodeChallenge.Views"
+    xmlns:cells="clr-namespace:CodeChallenge.Views.Cells"
     x:Class="CodeChallenge.Views.HomePage"
     Title="Code Challenge"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
@@ -16,7 +16,7 @@
             SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <views:MovieItemView />
+                    <cells:MovieItemView />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

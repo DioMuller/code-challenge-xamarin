@@ -21,6 +21,10 @@ using CodeChallenge.Views;
 using CodeChallenge.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CodeChallenge.Utils;
+using CodeChallenge.Services.Interfaces;
+using CodeChallenge.Services.Implementations;
+using CodeChallenge.ViewModels;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge
@@ -38,18 +42,55 @@ namespace CodeChallenge
 
         protected override async void OnStart()
         {
-            var genreResponse = await new MovieService().GetGenres();
+            InitializeServices();
+            InitializeViewModels();
+            InitializeContainer();
+
+            // TODO: Find a better way to do this.
+            var genreResponse = await IoCContainer.Instance.Resolve<IMovieService>().GetGenres();
             Genres = genreResponse.Genres;
+
+            InitializeView();
         }
 
-        protected override void OnSleep()
+        #region Private Methods
+        /// <summary>
+        /// Register Services.
+        /// </summary>
+        private void InitializeServices()
         {
-            // Handle when your app sleeps
+            // Singleton Services
+            IoCContainer.Instance.RegisterSingleton<INavigationService, NavigationService>();
+            IoCContainer.Instance.RegisterSingleton<IMovieService, MovieService>();
         }
 
-        protected override void OnResume()
+        /// <summary>
+        /// Register View/View Model mappings. 
+        /// 
+        /// This is done in an explicit form, instead of by using Reflection, so it becomes clearer to the 
+        /// developer which Views are linked to which models. (As in, less "magic", but can be less confusing).
+        /// </summary>
+        private void InitializeViewModels()
         {
-            // Handle when your app resumes
+            NavigationService.RegisterMap<HomePageViewModel, HomePage>();
         }
+
+        private void InitializeContainer()
+        {
+            // Rebuild container with services.
+            IoCContainer.Instance.Build();
+        }
+
+        /// <summary>
+        /// Initialize View and navigates to initial page.
+        /// </summary>
+        private void InitializeView()
+        {
+            var navigationService = IoCContainer.Instance.Resolve<INavigationService>();
+
+            // Create Main Page.
+            navigationService.NavigateToAsync<HomePageViewModel>();
+        }
+        #endregion
     }
 }
