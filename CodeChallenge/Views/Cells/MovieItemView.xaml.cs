@@ -19,7 +19,7 @@ using Xamarin.Forms;
 
 namespace CodeChallenge.Views.Cells
 {
-    public partial class MovieItemView : ViewCell
+    public partial class MovieItemView : ContentView
     {
         public MovieItemView()
         {

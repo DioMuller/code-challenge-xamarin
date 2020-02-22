@@ -72,7 +72,7 @@ namespace CodeChallenge
         /// </summary>
         private void InitializeViewModels()
         {
-            NavigationService.RegisterMap<HomePageViewModel, HomePage>();
+            NavigationService.RegisterMap<HomeViewModel, HomePage>();
         }
 
         private void InitializeContainer()
@@ -89,7 +89,7 @@ namespace CodeChallenge
             var navigationService = IoCContainer.Instance.Resolve<INavigationService>();
 
             // Create Main Page.
-            navigationService.NavigateToAsync<HomePageViewModel>();
+            navigationService.NavigateToAsync<HomeViewModel>();
         }
         #endregion
     }
