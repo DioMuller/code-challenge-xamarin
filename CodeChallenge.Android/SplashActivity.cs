@@ -28,7 +28,8 @@ namespace CodeChallenge.Droid
         // Launches the startup task
         protected override void OnResume()
         {
-            base.OnResume();
+            base.OnResume();            
+
             StartActivity(typeof(MainActivity));
         }
     }
