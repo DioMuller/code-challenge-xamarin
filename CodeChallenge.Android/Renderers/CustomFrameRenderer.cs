@@ -17,10 +17,12 @@
 
 using System.ComponentModel;
 using Android.Content;
+using Android.Support.V4.View;
+using CodeChallenge.Components;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(Frame), typeof(CodeChallenge.Droid.Renderers.CustomFrameRenderer))]
+[assembly: ExportRenderer(typeof(CustomFrame), typeof(CodeChallenge.Droid.Renderers.CustomFrameRenderer))]
 namespace CodeChallenge.Droid.Renderers
 {
     public class CustomFrameRenderer : Xamarin.Forms.Platform.Android.AppCompat.FrameRenderer
@@ -32,7 +34,8 @@ namespace CodeChallenge.Droid.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            if (e.NewElement.HasShadow)
+
+            if (e.NewElement != null && e.NewElement.HasShadow)
             {
                 UpdateElevation();
             }
@@ -41,7 +44,7 @@ namespace CodeChallenge.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == "Elevation")
+            if (e.PropertyName == CustomFrame.ElevationProperty.PropertyName)
             {
                 UpdateElevation();
             }
@@ -49,8 +52,13 @@ namespace CodeChallenge.Droid.Renderers
 
         private void UpdateElevation()
         {
-            Control.Elevation = 5;
-            Control.CardElevation = 5;
+            var frame = Element as CustomFrame;
+
+            if (frame != null && frame.HasShadow)
+            {
+                Control.Elevation = frame.Elevation;
+                Control.CardElevation = frame.Elevation;
+            }
         }
     }
 }

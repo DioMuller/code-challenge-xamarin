@@ -4,11 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:CodeChallenge.Effects"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:components="clr-namespace:CodeChallenge.Components"
     x:Class="CodeChallenge.Views.Cells.MovieItemView">
-    <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
-           HasShadow="{x:OnPlatform Android=true, iOS=false}"
-           BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
-           Padding="{x:OnPlatform Android=0, iOS=6}"
+    <components:CustomFrame 
+           CornerRadius="3"
+           HasShadow="true"
+           Elevation="5"
+           BorderColor="LightGray"
+           Padding="6"
+           Visual="Material"
            Margin="4">
         <Grid RowSpacing="0">
             <Grid.RowDefinitions>
@@ -56,5 +60,5 @@
                 VerticalTextAlignment="End"
                 Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
         </Grid>
-    </Frame>
+    </components:CustomFrame>
 </ContentView>
