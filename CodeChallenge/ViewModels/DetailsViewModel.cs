@@ -27,7 +27,8 @@ namespace CodeChallenge.ViewModels
     class DetailsViewModel : BaseViewModel
     {
         #region Attributes
-        private IMovieService _movieService;
+        private readonly IMovieService _movieService;
+        private readonly IDialogService _dialogService;
         private int _movieId;
         #endregion
 
@@ -90,9 +91,10 @@ namespace CodeChallenge.ViewModels
         #endregion
 
         #region Constructors
-        public DetailsViewModel(IMovieService movieService)
+        public DetailsViewModel(IMovieService movieService, IDialogService dialogService)
         {
             _movieService = movieService;
+            _dialogService = dialogService;
         }
         #endregion
 
@@ -120,7 +122,11 @@ namespace CodeChallenge.ViewModels
 
             if( result.IsError )
             {
-                // TODO: Show Error Message.
+                if (result.IsApiError)
+                    _dialogService.ShowDialog($"Error trying to obtain data\nStatus Code: {result.StatusCode}", "Error");
+                else
+                    _dialogService.ShowDialog("Error executing operation.", "Error");
+
                 IsBusy = false;
                 return;
             }

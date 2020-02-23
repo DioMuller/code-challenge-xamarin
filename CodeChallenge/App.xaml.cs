@@ -53,6 +53,7 @@ namespace CodeChallenge
             // Singleton Services
             IoCContainer.Instance.RegisterSingleton<INavigationService, NavigationService>();
             IoCContainer.Instance.RegisterSingleton<IMovieService, MovieService>();
+            IoCContainer.Instance.RegisterSingleton<IDialogService, DialogService>();
         }
 
         /// <summary>

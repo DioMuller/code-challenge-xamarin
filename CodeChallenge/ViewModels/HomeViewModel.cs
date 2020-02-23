@@ -32,6 +32,7 @@ namespace CodeChallenge.ViewModels
         #region Attributes
         private readonly IMovieService _movieService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
         private int _currentPage = 1;
         private string _lastSearch = null;
         #endregion
@@ -75,10 +76,11 @@ namespace CodeChallenge.ViewModels
         #endregion
 
         #region Constructors
-        public HomeViewModel(IMovieService movieService, INavigationService navigationService)
+        public HomeViewModel(IMovieService movieService, INavigationService navigationService, IDialogService dialogService)
         {
             _movieService = movieService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
 
             _movies = new RangeObservableCollection<MovieItemViewModel>();
 
@@ -116,9 +118,13 @@ namespace CodeChallenge.ViewModels
             else
                 result = await _movieService.Search(_lastSearch, _currentPage);
 
-            if( result.IsError )
+            if (result.IsError)
             {
-                // TODO: Show Error Message
+                if (result.IsApiError)
+                    _dialogService.ShowDialog($"Error trying to obtain data\nStatus Code: {result.StatusCode}", "Error");
+                else
+                    _dialogService.ShowDialog("Error executing operation.", "Error");
+
                 IsBusy = false;
                 return;
             }

@@ -15,6 +15,7 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,6 +27,8 @@ namespace CodeChallenge.Services.API
         #region Properties
         public T Result { get; private set; }
         public bool IsError { get; private set; }
+        public bool IsApiError { get; private set; }
+        public int StatusCode { get; private set; }
         public string Error { get; private set; }
         public Exception Exception { get; private set; }
         #endregion
@@ -35,6 +38,8 @@ namespace CodeChallenge.Services.API
         {
             Result = data;
             IsError = false;
+            IsApiError = false;
+            StatusCode = 0;
             Error = null;
             Exception = null;
         }
@@ -43,14 +48,18 @@ namespace CodeChallenge.Services.API
         {
             Result = default(T);
             IsError = true;
+            IsApiError = exception is ApiException;
+            StatusCode = IsApiError ? (int) (exception as ApiException).StatusCode : 0;
             Error = exception.Message;
             Exception = exception;
         }
 
-        public Response(string error)
+        public Response(string error, bool isApiError = false, int statusCode = 0)
         {
             Result = default(T);
             IsError = true;
+            IsApiError = isApiError;
+            StatusCode = statusCode;
             Error = error;
             Exception = null;
         }
