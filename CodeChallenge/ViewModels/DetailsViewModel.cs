@@ -89,6 +89,15 @@ namespace CodeChallenge.ViewModels
         }
         #endregion
 
+        #region VoteAverage
+        private double _voteAverage;
+        public double VoteAverage
+        {
+            get => _voteAverage;
+            set => SetProperty(ref _voteAverage, value);
+        }
+        #endregion
+
         #region IsRefreshing
         private bool _isRefreshing;
         public bool IsRefreshing
@@ -158,6 +167,7 @@ namespace CodeChallenge.ViewModels
             PosterPath = MovieImageUrlBuilder.BuildPosterUrl(details.PosterPath);
             BackdropPath = MovieImageUrlBuilder.BuildBackdropUrl(details.BackdropPath);
             ReleaseDate = details.ReleaseDate;
+            VoteAverage = details.VoteAverage;
 
             if (details.Genres != null)
             {
