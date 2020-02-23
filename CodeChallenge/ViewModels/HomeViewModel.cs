@@ -15,10 +15,12 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
 using CodeChallenge.Models.Data;
+using CodeChallenge.Models.Response;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.ViewModels.Base;
 using CodeChallenge.ViewModels.Cells;
@@ -32,6 +34,7 @@ namespace CodeChallenge.ViewModels
         private readonly IMovieService _movieService;
         private readonly INavigationService _navigationService;
         private int _currentPage = 1;
+        private string _lastSearch = null;
         #endregion
 
         #region Bindable Properties
@@ -42,6 +45,15 @@ namespace CodeChallenge.ViewModels
         {
             get => _movies;
             set => SetProperty(ref _movies, value);
+        }
+        #endregion
+
+        #region SearchText
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetProperty(ref _searchText, value);
         }
         #endregion
 
@@ -59,6 +71,7 @@ namespace CodeChallenge.ViewModels
 
         #region Commands
         public Command LoadMoreCommand { get; }
+        public Command SearchCommand { get; }
         public Command<MovieItemViewModel> SelectMovieCommand { get; }
         #endregion
 
@@ -72,6 +85,7 @@ namespace CodeChallenge.ViewModels
 
             LoadMoreCommand = new Command(async () => await ExecuteLoadMoreCommand());
             SelectMovieCommand = new Command<MovieItemViewModel>(async (movie) => await ExecuteSelectMovieCommand(movie));
+            SearchCommand = new Command(async () => await ExecuteSearchCommand());
         }
         #endregion
 
@@ -90,8 +104,15 @@ namespace CodeChallenge.ViewModels
         #region Private Methods
         private async Task UpdateMovies()
         {
-            var upcomingMoviesResponse = await _movieService.UpcomingMovies(_currentPage);
-            foreach (var movie in upcomingMoviesResponse.Results)
+            SearchResponse result;
+
+            if (string.IsNullOrWhiteSpace(_lastSearch))
+                result = await _movieService.UpcomingMovies(_currentPage);
+            else
+                result = await _movieService.Search(_lastSearch, _currentPage);
+
+
+            foreach (var movie in result.Results)
             {
                 Movies.Add(ToMovieItemViewModel(movie));
             }
@@ -109,6 +130,19 @@ namespace CodeChallenge.ViewModels
 
             IsBusy = true;
             _currentPage++;
+
+            UpdateMovies();
+        }
+
+        private async Task ExecuteSearchCommand()
+        {
+            // Do not load more if another operation is taking place.
+            if ( IsBusy ) return;
+
+            IsBusy = true;
+            _movies.Clear();
+            _currentPage = 1;
+            _lastSearch = SearchText;
 
             UpdateMovies();
         }

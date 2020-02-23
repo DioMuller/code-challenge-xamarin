@@ -33,7 +33,7 @@ namespace CodeChallenge.ViewModels.Cells
         private string posterPath;
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
 
-        public DateTimeOffset ReleaseDate { get; set; }
+        public DateTimeOffset? ReleaseDate { get; set; }
 
         public string Genres { get; set; }
 

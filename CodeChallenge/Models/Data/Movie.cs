@@ -16,7 +16,7 @@ namespace CodeChallenge.Models.Data
 
         public string PosterPath { get; set; }
 
-        public DateTimeOffset ReleaseDate { get; set; }
+        public DateTimeOffset? ReleaseDate { get; set; }
 
         public string Title { get; set; }
     }

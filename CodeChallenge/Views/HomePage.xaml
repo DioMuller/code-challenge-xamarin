@@ -8,13 +8,31 @@
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <ContentPage.Content>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Entry Text="{Binding SearchText}"
+                Grid.Row="0"
+                Grid.Column="0"/>
+            <Button Text="Search"
+                Command="{Binding SearchCommand}"
+                Grid.Row="0"
+                Grid.Column="1"/>
             <CollectionView
                 x:Name="MovieCollection"
                 ItemsSource="{Binding Movies}"
                 SelectionMode="None"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never"
-                HorizontalOptions="FillAndExpand"        
+                HorizontalOptions="FillAndExpand"    
+                VerticalOptions="FillAndExpand"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
                 Footer="{Binding}"
                 RemainingItemsThreshold="{Binding ItemsThreshold}"
                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">

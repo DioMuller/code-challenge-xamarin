@@ -45,7 +45,7 @@ namespace CodeChallenge.Services.Implementations
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
             };
 
-            var refitSettings = new RefitSettings { JsonSerializerSettings = jsonSerializerSettings };
+            var refitSettings = new RefitSettings { ContentSerializer = new JsonContentSerializer(jsonSerializerSettings) };
 
             return RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
         }

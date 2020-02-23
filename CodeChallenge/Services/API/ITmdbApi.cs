@@ -30,7 +30,7 @@ namespace CodeChallenge.Services.API
         [Get("/movie/upcoming?api_key={apiKey}&language={language}&page={page}&region={region}")]
         Task<UpcomingMoviesResponse> UpcomingMovies(string apiKey, string language, int page, string region);
 
-        [Get("/search/movie/api_key={apiKey}&query={query}&language={language}&page={page}&region={region}")]
+        [Get("/search/movie?api_key={apiKey}&language={language}&query={query}&page={page}&region={region}")]
         Task<SearchResponse> Search(string apiKey, string query, string language, int page, string region);
 
         [Get("/movie/{id}?api_key={apiKey}&language={language}")]
