@@ -67,6 +67,14 @@ namespace CodeChallenge.ViewModels
         }
         #endregion
 
+        #region IsRefreshing
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
+        #endregion
         #endregion
 
         #region Commands
@@ -97,6 +105,7 @@ namespace CodeChallenge.ViewModels
         public override async Task OnAppearing()
         {
             IsBusy = true;
+            IsRefreshing = true;
 
             await RefreshMovies();
         }
@@ -105,10 +114,14 @@ namespace CodeChallenge.ViewModels
         #region Private Methods
         private async Task UpdateMovies()
         {
-            if( _movieService.Genres == null )
+            if ( _movieService.Genres == null )
             {
                 if (!await _movieService.CacheGenres())
+                {
+                    IsBusy = false;
+                    IsRefreshing = false;
                     return;
+                }
             }
 
             Response<SearchResult> result;
@@ -126,6 +139,7 @@ namespace CodeChallenge.ViewModels
                     _dialogService.ShowDialog("Error executing operation.", "Error");
 
                 IsBusy = false;
+                IsRefreshing = false;
                 return;
             }
 
@@ -134,6 +148,7 @@ namespace CodeChallenge.ViewModels
             Movies.AddRange(movies.Results.Select(m => new MovieItemViewModel(_movieService, m)));
 
             IsBusy = false;
+            IsRefreshing = false;
         }
 
         private async Task RefreshMovies()
@@ -154,6 +169,7 @@ namespace CodeChallenge.ViewModels
             if (IsBusy) return;
 
             IsBusy = true;
+            IsRefreshing = true;
             _currentPage++;
 
             await UpdateMovies();
@@ -165,6 +181,7 @@ namespace CodeChallenge.ViewModels
             if ( IsBusy ) return;
 
             IsBusy = true;
+            IsRefreshing = true;
             _lastSearch = SearchText;
 
             await RefreshMovies();
@@ -175,7 +192,6 @@ namespace CodeChallenge.ViewModels
             // Do not load more if another operation is taking place.
             if (IsBusy) return;
 
-            IsBusy = true;
             await RefreshMovies();
         }
 

@@ -30,41 +30,39 @@
                     <TapGestureRecognizer Command="{Binding SearchCommand}"/>
                 </Image.GestureRecognizers>
             </Image>
-            <CollectionView
-                x:Name="MovieCollection"
-                ItemsSource="{Binding Movies}"
-                SelectionMode="None"
-                VerticalScrollBarVisibility="Never"
-                HorizontalScrollBarVisibility="Never"
+            <RefreshView
                 HorizontalOptions="FillAndExpand"    
                 VerticalOptions="FillAndExpand"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}"
                 Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Footer="{Binding}"
-                Margin="0"
-                RemainingItemsThreshold="{Binding ItemsThreshold}"
-                RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
-                <CollectionView.ItemsLayout>
-                    <!-- Needed to fix re-rendering bug on Android. -->
-                    <GridItemsLayout Orientation="Vertical"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <cells:MovieItemView>
-                            <cells:MovieItemView.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectMovieCommand, Source={x:Reference MovieCollection} }" CommandParameter="{Binding .}"/>
-                            </cells:MovieItemView.GestureRecognizers>
-                        </cells:MovieItemView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.FooterTemplate>
-                    <DataTemplate>
-                        <Grid IsVisible="{Binding IsBusy}">
-                            <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.FooterTemplate>
-            </CollectionView>
+                Grid.ColumnSpan="2">
+                <CollectionView
+                    x:Name="MovieCollection"
+                    ItemsSource="{Binding Movies}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Never"
+                    HorizontalScrollBarVisibility="Never"
+                    HorizontalOptions="FillAndExpand"    
+                    VerticalOptions="FillAndExpand"
+                    Margin="0"
+                    RemainingItemsThreshold="{Binding ItemsThreshold}"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+                    <CollectionView.ItemsLayout>
+                        <!-- Needed to fix re-rendering bug on Android. -->
+                        <GridItemsLayout Orientation="Vertical"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <cells:MovieItemView>
+                                <cells:MovieItemView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectMovieCommand, Source={x:Reference MovieCollection} }" CommandParameter="{Binding .}"/>
+                                </cells:MovieItemView.GestureRecognizers>
+                            </cells:MovieItemView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

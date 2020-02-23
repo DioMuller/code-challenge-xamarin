@@ -8,22 +8,27 @@
              x:Class="CodeChallenge.Views.DetailsPage"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="240"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <!-- Header -->
-                <ffimageloading:CachedImage 
+        <RefreshView
+                HorizontalOptions="FillAndExpand"    
+                VerticalOptions="FillAndExpand"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+            <ScrollView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="240"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Header -->
+                    <ffimageloading:CachedImage 
                        Source="{Binding BackdropPath}"
                        DownsampleToViewSize="True"
                        BackgroundColor="Black"
@@ -31,14 +36,14 @@
                        Grid.Row="0"
                        Grid.RowSpan="2"
                        Grid.ColumnSpan="3"/>
-                <Label Text="{Binding Title}" 
+                    <Label Text="{Binding Title}" 
                        Style="{StaticResource TitleLabel}"
                        VerticalOptions="EndAndExpand" 
                        HorizontalOptions="StartAndExpand" 
                        Grid.Row="1" 
                        Grid.ColumnSpan="3"/>
-                <!-- Poster Image -->
-                <ffimageloading:CachedImage  
+                    <!-- Poster Image -->
+                    <ffimageloading:CachedImage  
                        Source="{Binding PosterPath}"
                        DownsampleToViewSize="True"
                        Grid.Row="2"
@@ -46,35 +51,36 @@
                        HeightRequest="160"
                        Grid.Column="0"
                        Margin="10"/>
-                <!-- Release Date -->
-                <Label Text="Released:" 
+                    <!-- Release Date -->
+                    <Label Text="Released:" 
                        Grid.Row="2"
                        Grid.Column="1"
                        Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
-                <Label Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                    <Label Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"
                        Grid.Row="2"
                        Grid.Column="2"
                        Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
-                <!-- Genres -->
-                <Label Text="Genres:" 
+                    <!-- Genres -->
+                    <Label Text="Genres:" 
                        Grid.Row="3"
                        Grid.Column="1"
                        Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
-                <Label Text="{Binding Genres}"
+                    <Label Text="{Binding Genres}"
                        Grid.Row="3"
                        Grid.Column="2"
                        Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
-                <!-- Description -->
-                <Label Text="{Binding Description}"
+                    <!-- Description -->
+                    <Label Text="{Binding Description}"
                        LineBreakMode="WordWrap"
                        Grid.Row="4"
                        Grid.ColumnSpan="3"
                        Margin="10,5"/>
-            </Grid>
-        </ScrollView>
+                </Grid>
+            </ScrollView>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

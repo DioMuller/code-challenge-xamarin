@@ -21,6 +21,7 @@ using CodeChallenge.ViewModels.Base;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
@@ -88,6 +89,19 @@ namespace CodeChallenge.ViewModels
         }
         #endregion
 
+        #region IsRefreshing
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
+        #endregion
+
+        #endregion
+
+        #region Commands
+        public Command RefreshCommand { get; }
         #endregion
 
         #region Constructors
@@ -95,41 +109,46 @@ namespace CodeChallenge.ViewModels
         {
             _movieService = movieService;
             _dialogService = dialogService;
+
+            RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
         }
         #endregion
 
         #region BaseViewModel Methods
         public override async Task Initialize(object parameter = null)
         {
-            await Task.Run(() =>
+            if (parameter is int)
             {
-                if (parameter is int)
-                {
-                    _movieId = (int)parameter;
-                    UpdateMovieData();
-                }
-                else
-                {
-                    throw new Exception("DetailsViewModel needs an integer movie id parameter.");
-                }
-            });
+                _movieId = (int)parameter;
+                await UpdateMovieData();
+            }
+            else
+            {
+                throw new Exception("DetailsViewModel needs an integer movie id parameter.");
+            }
         }
         #endregion
 
         #region Private Methods
-        private async void UpdateMovieData()
+        private async Task UpdateMovieData()
         {
+            if (IsBusy) return;
+
             IsBusy = true;
+            IsRefreshing = true;
+
             var result = await _movieService.GetMovie(_movieId);
 
-            if( result.IsError )
+            if (result.IsError)
             {
                 if (result.IsApiError)
                     _dialogService.ShowDialog($"Error trying to obtain data\nStatus Code: {result.StatusCode}", "Error");
                 else
                     _dialogService.ShowDialog("Error executing operation.", "Error");
 
+                IsRefreshing = false;
                 IsBusy = false;
+
                 return;
             }
 
@@ -151,7 +170,15 @@ namespace CodeChallenge.ViewModels
 
             Description = details.Overview;
 
+            IsRefreshing = false;
             IsBusy = false;
+        }
+        #endregion
+
+        #region Command Methods
+        private async Task ExecuteRefreshCommand()
+        {
+            await UpdateMovieData();
         }
         #endregion
     }
