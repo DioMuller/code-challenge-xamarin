@@ -28,6 +28,11 @@
                 Source="{Binding PosterPath}"
                 Grid.RowSpan="3"
                 Aspect="AspectFit"
+                HeightRequest="{x:OnPlatform iOS=90, Android=120}"
+                WidthRequest="{x:OnPlatform iOS=60, Android=80}"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                
                 DownsampleToViewSize="True"/>
             <Label
                 Grid.Row="0"
@@ -41,6 +46,7 @@
             </Label>
             <Label
                 Margin="0,10,0,0"
+                Padding="0"
                 Grid.Row="1"
                 Grid.Column="1"
                 Text="{Binding Genres}">
