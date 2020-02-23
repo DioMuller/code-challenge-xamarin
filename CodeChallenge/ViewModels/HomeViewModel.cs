@@ -11,13 +11,14 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the HomePageViewModel type.
+//   Defines the HomeViewModel type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Data;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.ViewModels.Base;
 using CodeChallenge.ViewModels.Cells;
@@ -89,7 +90,7 @@ namespace CodeChallenge.ViewModels
         #region Private Methods
         private async Task UpdateMovies()
         {
-            UpcomingMoviesResponse upcomingMoviesResponse = await _movieService.UpcomingMovies(_currentPage);
+            var upcomingMoviesResponse = await _movieService.UpcomingMovies(_currentPage);
             foreach (var movie in upcomingMoviesResponse.Results)
             {
                 Movies.Add(ToMovieItemViewModel(movie));

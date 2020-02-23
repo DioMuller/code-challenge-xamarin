@@ -106,13 +106,9 @@ namespace CodeChallenge.ViewModels
             BackdropPath = MovieImageUrlBuilder.BuildBackdropUrl(result.BackdropPath);
             ReleaseDate = result.ReleaseDate;
 
-            if( result.Genres != null )
+            if (result.Genres != null)
             {
                 Genres = string.Join(", ", result.Genres.Select(g => g.Name));
-            }
-            else if( result.GenreIds != null)
-            {
-                Genres = string.Join(", ", result.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
             }
             else
             {

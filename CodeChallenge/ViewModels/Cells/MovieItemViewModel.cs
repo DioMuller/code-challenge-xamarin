@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Data;
 using CodeChallenge.ViewModels.Base;
 
 namespace CodeChallenge.ViewModels.Cells

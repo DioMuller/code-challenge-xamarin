@@ -16,15 +16,14 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using CodeChallenge.Models;
 using CodeChallenge.Views;
-using CodeChallenge.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CodeChallenge.Utils;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.Services.Implementations;
 using CodeChallenge.ViewModels;
+using CodeChallenge.Models.Response.Data;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge

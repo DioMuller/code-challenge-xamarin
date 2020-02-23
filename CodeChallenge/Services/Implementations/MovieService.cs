@@ -19,6 +19,7 @@
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Response;
 using CodeChallenge.Services.API;
 using CodeChallenge.Services.Interfaces;
 using Newtonsoft.Json;
@@ -33,7 +34,9 @@ namespace CodeChallenge.Services.Implementations
 
         public Task<UpcomingMoviesResponse> UpcomingMovies(int page) => GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
 
-        public Task<Movie> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
+        public Task<SearchResponse> Search(string query, int page) => GetApi().Search(Constants.API_KEY, query, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
+
+        public Task<MovieDetailResponse> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
 
         private ITmdbApi GetApi()
         {

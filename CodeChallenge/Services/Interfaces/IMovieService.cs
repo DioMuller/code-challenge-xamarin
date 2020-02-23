@@ -1,4 +1,5 @@
 ﻿using CodeChallenge.Models;
+using CodeChallenge.Models.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,7 @@ namespace CodeChallenge.Services.Interfaces
     {
         Task<GenreResponse> GetGenres();
         Task<UpcomingMoviesResponse> UpcomingMovies(int page);
-        Task<Movie> GetMovie(int movieId);
+        Task<SearchResponse> Search(string query, int page);
+        Task<MovieDetailResponse> GetMovie(int movieId);
     }
 }

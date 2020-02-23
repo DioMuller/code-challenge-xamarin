@@ -17,6 +17,7 @@
 
 using System.Threading.Tasks;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Response;
 using Refit;
 
 namespace CodeChallenge.Services.API
@@ -29,7 +30,10 @@ namespace CodeChallenge.Services.API
         [Get("/movie/upcoming?api_key={apiKey}&language={language}&page={page}&region={region}")]
         Task<UpcomingMoviesResponse> UpcomingMovies(string apiKey, string language, int page, string region);
 
+        [Get("/search/movie/api_key={apiKey}&query={query}&language={language}&page={page}&region={region}")]
+        Task<SearchResponse> Search(string apiKey, string query, string language, int page, string region);
+
         [Get("/movie/{id}?api_key={apiKey}&language={language}")]
-        Task<Movie> GetMovie(string apiKey, string language, [AliasAs("id")]int movieId);
+        Task<MovieDetailResponse> GetMovie(string apiKey, string language, [AliasAs("id")]int movieId);
     }
 }
