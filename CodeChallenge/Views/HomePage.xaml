@@ -17,12 +17,19 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Entry Text="{Binding SearchText}"
+                HeightRequest="50"
                 Grid.Row="0"
-                Grid.Column="0"/>
-            <Button Text="Search"
-                Command="{Binding SearchCommand}"
+                Grid.Column="0"
+                Margin="0"
+                ReturnCommand="{Binding SearchCommand}"/>
+            <!-- ImageButton has a Stretching problem on iOS -->
+            <Image Source="IconSearch"
                 Grid.Row="0"
-                Grid.Column="1"/>
+                Grid.Column="1">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SearchCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
             <CollectionView
                 x:Name="MovieCollection"
                 ItemsSource="{Binding Movies}"

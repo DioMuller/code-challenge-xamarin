@@ -32,12 +32,7 @@
                        Grid.RowSpan="2"
                        Grid.ColumnSpan="3"/>
                 <Label Text="{Binding Title}" 
-                       Padding="10" 
-                       FontSize="26" 
-                       FontAttributes="Bold" 
-                       BackgroundColor="#99000000"
-                       TextColor="White" 
-                       LineBreakMode="TailTruncation"
+                       Style="{StaticResource TitleLabel}"
                        VerticalOptions="EndAndExpand" 
                        HorizontalOptions="StartAndExpand" 
                        Grid.Row="1" 
@@ -55,19 +50,23 @@
                 <Label Text="Released:" 
                        Grid.Row="2"
                        Grid.Column="1"
+                       Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
                 <Label Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"
                        Grid.Row="2"
                        Grid.Column="2"
+                       Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
                 <!-- Genres -->
                 <Label Text="Genres:" 
                        Grid.Row="3"
                        Grid.Column="1"
+                       Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
                 <Label Text="{Binding Genres}"
                        Grid.Row="3"
                        Grid.Column="2"
+                       Style="{StaticResource SecondaryLabel}"
                        Margin="10,5"/>
                 <!-- Description -->
                 <Label Text="{Binding Description}"
