@@ -104,6 +104,12 @@ namespace CodeChallenge.ViewModels
         #region Private Methods
         private async Task UpdateMovies()
         {
+            if( _movieService.Genres == null )
+            {
+                if (!await _movieService.CacheGenres())
+                    return;
+            }
+
             SearchResponse result;
 
             if (string.IsNullOrWhiteSpace(_lastSearch))
@@ -119,7 +125,7 @@ namespace CodeChallenge.ViewModels
             IsBusy = false;
         }
 
-        private MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(result);
+        private MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(_movieService, result);
         #endregion Private Methods
 
         #region Command Methods

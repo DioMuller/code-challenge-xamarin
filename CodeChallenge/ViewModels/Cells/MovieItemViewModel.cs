@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using CodeChallenge.Models;
 using CodeChallenge.Models.Data;
+using CodeChallenge.Services.Interfaces;
 using CodeChallenge.ViewModels.Base;
 
 namespace CodeChallenge.ViewModels.Cells
@@ -41,13 +42,13 @@ namespace CodeChallenge.ViewModels.Cells
         #endregion
 
         #region Constructor
-        public MovieItemViewModel(Movie movie)
+        public MovieItemViewModel(IMovieService movieService, Movie movie)
         {
             Id = movie.Id;
             Title = movie.Title;
             PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
             ReleaseDate = movie.ReleaseDate;
-            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+            Genres = string.Join(", ", movie.GenreIds.Select(m => movieService.Genres?.First(g => g.Id == m)?.Name));
         }
         #endregion
 

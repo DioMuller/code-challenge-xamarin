@@ -16,10 +16,12 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
 using CodeChallenge.Models.Response;
+using CodeChallenge.Models.Response.Data;
 using CodeChallenge.Services.API;
 using CodeChallenge.Services.Interfaces;
 using Newtonsoft.Json;
@@ -30,6 +32,34 @@ namespace CodeChallenge.Services.Implementations
 {
     public class MovieService : IMovieService
     {
+        #region Attributes
+        private ITmdbApi _api;
+        #endregion
+
+        #region Properties
+        public List<Genre> Genres { get; private set; }
+        #endregion
+
+        #region IMovieService Methods
+        public async Task<bool> CacheGenres()
+        {
+            try
+            {
+                var genres = await GetGenres();
+                if (genres == null) return false;
+
+                Genres = genres.Genres;
+
+                return Genres != null && Genres.Count > 0;
+            }
+            catch(ApiException)
+            {
+                return false;
+            }
+
+
+        }
+
         public Task<GenreResponse> GetGenres() => GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
 
         public Task<UpcomingMoviesResponse> UpcomingMovies(int page) => GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
@@ -37,17 +67,25 @@ namespace CodeChallenge.Services.Implementations
         public Task<SearchResponse> Search(string query, int page) => GetApi().Search(Constants.API_KEY, query, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
 
         public Task<MovieDetailResponse> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
+        #endregion
 
+        #region Private Methods
         private ITmdbApi GetApi()
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
+            if (_api == null)
             {
-                ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
-            };
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
+                };
 
-            var refitSettings = new RefitSettings { ContentSerializer = new JsonContentSerializer(jsonSerializerSettings) };
+                var refitSettings = new RefitSettings { ContentSerializer = new JsonContentSerializer(jsonSerializerSettings) };
 
-            return RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
+                _api = RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
+            }
+
+            return _api;
         }
+        #endregion
     }
 }

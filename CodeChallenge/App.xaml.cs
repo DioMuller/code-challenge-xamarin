@@ -30,8 +30,6 @@ namespace CodeChallenge
 {
     public partial class App : Application
     {
-        public static List<Genre> Genres { get; private set; }
-
         public App()
         {
             InitializeComponent();
@@ -44,10 +42,6 @@ namespace CodeChallenge
             InitializeServices();
             InitializeViewModels();
             InitializeContainer();
-
-            // TODO: Find a better way to do this.
-            var genreResponse = await IoCContainer.Instance.Resolve<IMovieService>().GetGenres();
-            Genres = genreResponse.Genres;
 
             InitializeView();
         }
