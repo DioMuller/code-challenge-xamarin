@@ -45,6 +45,7 @@
                     HorizontalScrollBarVisibility="Never"
                     HorizontalOptions="FillAndExpand"    
                     VerticalOptions="FillAndExpand"
+                    Footer="{Binding}"
                     Margin="0"
                     RemainingItemsThreshold="{Binding ItemsThreshold}"
                     RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
@@ -61,6 +62,13 @@
                             </cells:MovieItemView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+                    <CollectionView.FooterTemplate>
+                        <DataTemplate>
+                            <Grid IsVisible="{Binding IsBusy}">
+                                <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsBusy}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.FooterTemplate>
                 </CollectionView>
             </RefreshView>
         </Grid>

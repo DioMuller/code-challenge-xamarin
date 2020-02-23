@@ -34,6 +34,7 @@ namespace CodeChallenge.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
         private int _currentPage = 1;
+        private int _maxPage = 1;
         private string _lastSearch = null;
         #endregion
 
@@ -105,7 +106,6 @@ namespace CodeChallenge.ViewModels
         public override async Task OnAppearing()
         {
             IsBusy = true;
-            IsRefreshing = true;
 
             await RefreshMovies();
         }
@@ -144,6 +144,7 @@ namespace CodeChallenge.ViewModels
             }
 
             var movies = result.Result;
+            _maxPage = movies.TotalPages;
 
             Movies.AddRange(movies.Results.Select(m => new MovieItemViewModel(_movieService, m)));
 
@@ -166,10 +167,11 @@ namespace CodeChallenge.ViewModels
         private async Task ExecuteLoadMoreCommand()
         {
             // Do not load more if another operation is taking place.
-            if (IsBusy) return;
+            if (IsBusy || _currentPage + 1 > _maxPage) return;
+
 
             IsBusy = true;
-            IsRefreshing = true;
+
             _currentPage++;
 
             await UpdateMovies();
@@ -181,7 +183,6 @@ namespace CodeChallenge.ViewModels
             if ( IsBusy ) return;
 
             IsBusy = true;
-            IsRefreshing = true;
             _lastSearch = SearchText;
 
             await RefreshMovies();

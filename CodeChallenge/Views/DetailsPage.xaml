@@ -12,7 +12,7 @@
                 HorizontalOptions="FillAndExpand"    
                 VerticalOptions="FillAndExpand"
                 Command="{Binding RefreshCommand}"
-                IsRefreshing="{Binding IsRefreshing}">
+                IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
             <ScrollView>
                 <Grid>
                     <Grid.RowDefinitions>
