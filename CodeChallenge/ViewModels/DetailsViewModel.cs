@@ -44,8 +44,8 @@ namespace CodeChallenge.ViewModels
         #endregion
 
         #region ReleaseDate
-        private DateTimeOffset _releaseDate;
-        public DateTimeOffset ReleaseDate
+        private DateTimeOffset? _releaseDate;
+        public DateTimeOffset? ReleaseDate
         {
             get => _releaseDate;
             set => SetProperty(ref _releaseDate, value);

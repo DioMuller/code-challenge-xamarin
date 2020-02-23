@@ -31,6 +31,6 @@ namespace CodeChallenge.Models
 
         public string Overview { get; set; }
 
-        public DateTimeOffset ReleaseDate { get; set; }
+        public DateTimeOffset? ReleaseDate { get; set; }
     }
 }
