@@ -15,10 +15,7 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-namespace CodeChallenge.Models.Response.Data
+namespace CodeChallenge.Models
 {
     public class Genre
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CodeChallenge.Models.Data
+namespace CodeChallenge.Models
 {
     public class Movie
     {

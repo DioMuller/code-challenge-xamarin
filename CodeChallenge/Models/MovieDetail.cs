@@ -1,11 +1,9 @@
-﻿using CodeChallenge.Models.Response.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CodeChallenge.Models.Response
+namespace CodeChallenge.Models
 {
-    public class MovieDetailResponse
+    public class MovieDetail
     {
         public int VoteCount { get; set; }
 

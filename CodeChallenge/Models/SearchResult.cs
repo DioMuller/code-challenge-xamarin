@@ -1,11 +1,9 @@
 ﻿using CodeChallenge.Models.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CodeChallenge.Models.Response
+namespace CodeChallenge.Models
 {
-    public class SearchResponse
+    public class SearchResult
     {
         public List<Movie> Results { get; set; }
 
@@ -14,5 +12,7 @@ namespace CodeChallenge.Models.Response
         public int TotalResults { get; set; }
 
         public int TotalPages { get; set; }
+
+        public DateRange Dates { get; set; }
     }
 }

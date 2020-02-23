@@ -19,8 +19,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
-using CodeChallenge.Models.Data;
-using CodeChallenge.Models.Response;
+using CodeChallenge.Services.API;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.ViewModels.Base;
 using CodeChallenge.ViewModels.Cells;
@@ -110,18 +109,27 @@ namespace CodeChallenge.ViewModels
                     return;
             }
 
-            SearchResponse result;
+            Response<SearchResult> result;
 
             if (string.IsNullOrWhiteSpace(_lastSearch))
                 result = await _movieService.UpcomingMovies(_currentPage);
             else
                 result = await _movieService.Search(_lastSearch, _currentPage);
 
+            if( result.IsError )
+            {
+                // TODO: Show Error Message
+                IsBusy = false;
+                return;
+            }
 
-            foreach (var movie in result.Results)
+            var movies = result.Result;
+
+            foreach (var movie in movies.Results)
             {
                 Movies.Add(ToMovieItemViewModel(movie));
             }
+
             IsBusy = false;
         }
 

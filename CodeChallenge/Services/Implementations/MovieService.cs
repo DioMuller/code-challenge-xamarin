@@ -16,12 +16,12 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
-using CodeChallenge.Models.Response;
-using CodeChallenge.Models.Response.Data;
 using CodeChallenge.Services.API;
 using CodeChallenge.Services.Interfaces;
 using Newtonsoft.Json;
@@ -43,30 +43,22 @@ namespace CodeChallenge.Services.Implementations
         #region IMovieService Methods
         public async Task<bool> CacheGenres()
         {
-            try
-            {
-                var genres = await GetGenres();
-                if (genres == null) return false;
+            var response = await GetGenres();
 
-                Genres = genres.Genres;
+            if (response.IsError) return false;
 
-                return Genres != null && Genres.Count > 0;
-            }
-            catch(ApiException)
-            {
-                return false;
-            }
+            Genres = response.Result?.Genres;
 
-
+            return Genres != null && Genres.Count > 0;
         }
 
-        public Task<GenreResponse> GetGenres() => GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
+        public Task<Response<GenreList>> GetGenres() => GetResponse(GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE));
 
-        public Task<UpcomingMoviesResponse> UpcomingMovies(int page) => GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
+        public Task<Response<SearchResult>> UpcomingMovies(int page) => GetResponse(GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION));
 
-        public Task<SearchResponse> Search(string query, int page) => GetApi().Search(Constants.API_KEY, query, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
+        public Task<Response<SearchResult>> Search(string query, int page) => GetResponse(GetApi().Search(Constants.API_KEY, query, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION));
 
-        public Task<MovieDetailResponse> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
+        public Task<Response<MovieDetail>> GetMovie(int movieId) => GetResponse(GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId));
         #endregion
 
         #region Private Methods
@@ -81,10 +73,29 @@ namespace CodeChallenge.Services.Implementations
 
                 var refitSettings = new RefitSettings { ContentSerializer = new JsonContentSerializer(jsonSerializerSettings) };
 
-                _api = RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
+                var client = new HttpClient()
+                {
+                    BaseAddress = new Uri(Constants.API_URL),
+                    Timeout = TimeSpan.FromSeconds(Constants.HTTP_TIMEOUT)
+                };
+
+                _api = RestService.For<ITmdbApi>(client, refitSettings);
             }
 
             return _api;
+        }
+
+        private async Task<Response<T>> GetResponse<T>(Task<T> task)
+        {
+            try
+            {
+                var result = await task;
+                return new Response<T>(data: result);
+            }
+            catch(Exception ex)
+            {
+                return new Response<T>(exception: ex);
+            }             
         }
         #endregion
     }

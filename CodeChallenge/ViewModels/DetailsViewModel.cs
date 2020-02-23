@@ -101,21 +101,30 @@ namespace CodeChallenge.ViewModels
             IsBusy = true;
             var result = await _movieService.GetMovie(_movieId);
 
-            Title = result.Title;
-            PosterPath = MovieImageUrlBuilder.BuildPosterUrl(result.PosterPath);
-            BackdropPath = MovieImageUrlBuilder.BuildBackdropUrl(result.BackdropPath);
-            ReleaseDate = result.ReleaseDate;
-
-            if (result.Genres != null)
+            if( result.IsError )
             {
-                Genres = string.Join(", ", result.Genres.Select(g => g.Name));
+                // TODO: Show Error Message.
+                IsBusy = false;
+                return;
+            }
+
+            var details = result.Result;
+
+            Title = details.Title;
+            PosterPath = MovieImageUrlBuilder.BuildPosterUrl(details.PosterPath);
+            BackdropPath = MovieImageUrlBuilder.BuildBackdropUrl(details.BackdropPath);
+            ReleaseDate = details.ReleaseDate;
+
+            if (details.Genres != null)
+            {
+                Genres = string.Join(", ", details.Genres.Select(g => g.Name));
             }
             else
             {
                 Genres = "Unavaliable";
             }
 
-            Description = result.Overview;
+            Description = details.Overview;
 
             IsBusy = false;
         }

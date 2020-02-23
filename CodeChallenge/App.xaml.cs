@@ -23,7 +23,6 @@ using CodeChallenge.Utils;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.Services.Implementations;
 using CodeChallenge.ViewModels;
-using CodeChallenge.Models.Response.Data;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge

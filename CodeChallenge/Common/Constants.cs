@@ -23,5 +23,6 @@ namespace CodeChallenge.Common
         public const string API_KEY = "1f54bd990f1cdfb230adb312546d765d";
         public const string DEFAULT_LANGUAGE = "";
         public const string DEFAULT_REGION = "";
+        public const int HTTP_TIMEOUT = 90;
     }
 }
