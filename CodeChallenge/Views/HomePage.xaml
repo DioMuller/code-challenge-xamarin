@@ -69,6 +69,33 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.FooterTemplate>
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="No Movies Found" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Row="1">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="{x:Type Label}" Binding="{Binding IsBusy}" Value="True">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Text="Searching..." 
+                                   IsVisible="{Binding IsBusy}"  
+                                   Grid.Row="1" 
+                                   HorizontalOptions="Center"/>
+                            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                               IsVisible="{Binding IsBusy}"  
+                                               Grid.Row="2" 
+                                               HorizontalOptions="Center"/>
+                        </Grid>
+                    </CollectionView.EmptyView>
                 </CollectionView>
             </RefreshView>
         </Grid>
