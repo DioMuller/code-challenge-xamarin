@@ -15,12 +15,12 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
 using CodeChallenge.Services.API;
 using CodeChallenge.Services.Interfaces;
+using CodeChallenge.Utils;
 using CodeChallenge.ViewModels.Base;
 using CodeChallenge.ViewModels.Cells;
 using Xamarin.Forms;
@@ -39,8 +39,8 @@ namespace CodeChallenge.ViewModels
         #region Bindable Properties
 
         #region Movies
-        private ObservableCollection<MovieItemViewModel> _movies;
-        public ObservableCollection<MovieItemViewModel> Movies
+        private RangeObservableCollection<MovieItemViewModel> _movies;
+        public RangeObservableCollection<MovieItemViewModel> Movies
         {
             get => _movies;
             set => SetProperty(ref _movies, value);
@@ -80,7 +80,7 @@ namespace CodeChallenge.ViewModels
             _movieService = movieService;
             _navigationService = navigationService;
 
-            _movies = new ObservableCollection<MovieItemViewModel>();
+            _movies = new RangeObservableCollection<MovieItemViewModel>();
 
             LoadMoreCommand = new Command(async () => await ExecuteLoadMoreCommand());
             SelectMovieCommand = new Command<MovieItemViewModel>(async (movie) => await ExecuteSelectMovieCommand(movie));
@@ -125,10 +125,7 @@ namespace CodeChallenge.ViewModels
 
             var movies = result.Result;
 
-            foreach (var movie in movies.Results)
-            {
-                Movies.Add(ToMovieItemViewModel(movie));
-            }
+            Movies.AddRange(movies.Results.Select(m => new MovieItemViewModel(_movieService, m)));
 
             IsBusy = false;
         }

@@ -10,7 +10,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -34,8 +34,13 @@
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Footer="{Binding}"
+                Margin="0"
                 RemainingItemsThreshold="{Binding ItemsThreshold}"
                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+                <CollectionView.ItemsLayout>
+                    <!-- Needed to fix re-rendering bug on Android. -->
+                    <GridItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <cells:MovieItemView>
