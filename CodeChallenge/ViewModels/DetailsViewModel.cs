@@ -101,21 +101,23 @@ namespace CodeChallenge.ViewModels
         #region BaseViewModel Methods
         public override async Task Initialize(object parameter = null)
         {
-            if( parameter is int )
+            await Task.Run(() =>
             {
-                _movieId = (int)parameter;
-                UpdateMovieData();
-            }
-            else
-            {
-                throw new Exception("DetailsViewModel needs an integer movie id parameter.");
-            }
-
+                if (parameter is int)
+                {
+                    _movieId = (int)parameter;
+                    UpdateMovieData();
+                }
+                else
+                {
+                    throw new Exception("DetailsViewModel needs an integer movie id parameter.");
+                }
+            });
         }
         #endregion
 
         #region Private Methods
-        private async Task UpdateMovieData()
+        private async void UpdateMovieData()
         {
             IsBusy = true;
             var result = await _movieService.GetMovie(_movieId);

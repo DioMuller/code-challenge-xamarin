@@ -22,6 +22,7 @@ using CodeChallenge.Utils;
 using CodeChallenge.Services.Interfaces;
 using CodeChallenge.Services.Implementations;
 using CodeChallenge.ViewModels;
+using System.Threading.Tasks;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge
@@ -35,7 +36,7 @@ namespace CodeChallenge
             MainPage = new HomePage();
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
             InitializeServices();
             InitializeViewModels();

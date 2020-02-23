@@ -72,6 +72,7 @@ namespace CodeChallenge.ViewModels
         #region Commands
         public Command LoadMoreCommand { get; }
         public Command SearchCommand { get; }
+        public Command RefreshCommand { get;  }
         public Command<MovieItemViewModel> SelectMovieCommand { get; }
         #endregion
 
@@ -85,8 +86,10 @@ namespace CodeChallenge.ViewModels
             _movies = new RangeObservableCollection<MovieItemViewModel>();
 
             LoadMoreCommand = new Command(async () => await ExecuteLoadMoreCommand());
-            SelectMovieCommand = new Command<MovieItemViewModel>(async (movie) => await ExecuteSelectMovieCommand(movie));
             SearchCommand = new Command(async () => await ExecuteSearchCommand());
+            RefreshCommand = new Command(async () => await ExecuteRefreshCommand());
+            SelectMovieCommand = new Command<MovieItemViewModel>(async (movie) => await ExecuteSelectMovieCommand(movie));
+            
         }
         #endregion
 
@@ -95,10 +98,7 @@ namespace CodeChallenge.ViewModels
         {
             IsBusy = true;
 
-            _currentPage = 1;
-            Movies.Clear();
-
-            await UpdateMovies();
+            await RefreshMovies();
         }
         #endregion
 
@@ -136,6 +136,14 @@ namespace CodeChallenge.ViewModels
             IsBusy = false;
         }
 
+        private async Task RefreshMovies()
+        {
+            _movies.Clear();
+            _currentPage = 1;
+
+            await UpdateMovies();
+        }
+
         private MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(_movieService, result);
         #endregion Private Methods
 
@@ -148,7 +156,7 @@ namespace CodeChallenge.ViewModels
             IsBusy = true;
             _currentPage++;
 
-            UpdateMovies();
+            await UpdateMovies();
         }
 
         private async Task ExecuteSearchCommand()
@@ -157,11 +165,18 @@ namespace CodeChallenge.ViewModels
             if ( IsBusy ) return;
 
             IsBusy = true;
-            _movies.Clear();
-            _currentPage = 1;
             _lastSearch = SearchText;
 
-            UpdateMovies();
+            await RefreshMovies();
+        }
+
+        private async Task ExecuteRefreshCommand()
+        {
+            // Do not load more if another operation is taking place.
+            if (IsBusy) return;
+
+            IsBusy = true;
+            await RefreshMovies();
         }
 
         private async Task ExecuteSelectMovieCommand(MovieItemViewModel movie)
