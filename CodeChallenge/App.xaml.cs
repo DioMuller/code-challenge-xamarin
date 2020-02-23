@@ -15,7 +15,6 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using CodeChallenge.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

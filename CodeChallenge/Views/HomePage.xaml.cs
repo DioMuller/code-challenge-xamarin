@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainPage.xaml.cs" company="ArcTouch LLC">
+// <copyright file="HomePage.xaml.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,7 +11,7 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the MainPage type.
+//   Defines the HomePage type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 

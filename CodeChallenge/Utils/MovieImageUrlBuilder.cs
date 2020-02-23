@@ -14,6 +14,7 @@
 //   Defines the MovieImageUrlBuilder type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
+
 using CodeChallenge.Common;
 
 namespace CodeChallenge.Utils
