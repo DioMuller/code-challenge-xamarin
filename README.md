@@ -24,10 +24,15 @@ The app consumes content from [The Movie Database](https://www.themoviedb.org).
 
 ## Environment
 
-This project was made using Visual Studio Community 2019 Version 16.4.5, running on Windows 10.
-Mac builds were made via remote connection to a Mac running macOS Mojave 10.14.6, with Visual Studio for Mac version 8.3.4.
-The app was tested on both Google's Android emulator and Apple's iOS emulator.
-For physical tests, a Motorola Play X running Android 7.1.1 and an iPhone 6S running iOS 13.3.1 were used.
+### Development
+* Windows 10 with Visual Studio Community 2019 Version 16.4.5.
+* Mac running macOS Mojave 10.14.6, with Visual Studio for Mac version 8.3.4.
+
+### Tests
+* Google's Android emulator .
+* Apple's iOS emulator.
+* Motorola Play X running Android 7.1.1.
+* iPhone 6S running iOS 13.3.1.
 
 ## Libraries
 The project is configured to download it's dependencies automatically via Nuget.
